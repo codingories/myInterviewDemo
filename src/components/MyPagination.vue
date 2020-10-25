@@ -1,6 +1,5 @@
 <template>
     <div>
-      {{pageObj}}
       <div class="block">
         <el-pagination
             @size-change="handleSizeChange"
