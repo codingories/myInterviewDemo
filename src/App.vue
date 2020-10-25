@@ -2,7 +2,7 @@
   <div id="app">
 <!--      ID 产品名称 品类 型号 功能入口 操作-->
     <myForm :myFormData="myFormData"></myForm>
-    <my-table :tableProps="tableProps" :tableData="tableData"></my-table>
+    <my-table :tableProps="tableProps" :tableData="tableData" :hoverOption="hoverOption" :iconOptions="iconOptions" @update:handleIcon="handleIcon"></my-table>
 
 <!--    <div class="block">-->
 <!--      <el-pagination-->
@@ -28,6 +28,24 @@ export default {
       myFormData: {
         title: "全部种类",
         content: [{index:1,name:"下拉五"},{index:2,name:"下拉二"},{index:3,name:"下拉三"}]
+      },
+      hoverOption:{
+        label: "产品名称",
+        content: "",
+      },
+      iconOptions: {
+        label: '操作',
+        options: [
+          {
+            type:"el-icon-edit"
+          },
+          {
+            type:"el-icon-share"
+          },
+          {
+            type:"el-icon-delete"
+          },
+        ]
       },
       tableProps: [
         // ID 产品名称 品类 型号 功能入口 操作
@@ -147,6 +165,9 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+    },
+    handleIcon(arg){
+      console.log(arg)
     }
   },
 

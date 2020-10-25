@@ -1,9 +1,12 @@
 <template>
 
     <div>
-      {{tableProps}}
-      <hr>
-      {{tableData}}
+<!--      {{tableProps}}-->
+<!--      <hr>-->
+<!--      {{tableData}}-->
+<!--      <hr>-->
+<!--      {{hoverOption}}-->
+      {{iconOptions}}
       <el-table
           :data="tableData"
           style="width: 100%">
@@ -39,34 +42,22 @@
 <!--            width="180">-->
 
 
-      <el-table-column>
-            <template slot-scope="scope">
-              <el-popover trigger="hover" placement="bottom">
-                <p>{{ scope.row.productName }}</p>
-                <div slot="reference" class="name-wrapper">
-                  <span size="medium">{{ scope.row.productName }}</span>
-                </div>
-              </el-popover>
-            </template>
+      <el-table-column :label="hoverOption.label">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="bottom">
+            <p>{{ scope.row.productName }}</p>
+            <div slot="reference" class="name-wrapper">
+              <span size="medium">{{ scope.row.productName }}</span>
+            </div>
+          </el-popover>
+        </template>
       </el-table-column>
-<!--        <template slot-scope="scope">-->
-<!--          <el-popover trigger="hover" placement="bottom">-->
-<!--            <p>{{ scope.row.productName }}</p>-->
-<!--            <div slot="reference" class="name-wrapper">-->
-<!--              <span size="medium">{{ scope.row.productName }}</span>-->
-<!--            </div>-->
-<!--          </el-popover>-->
-<!--        </template>-->
-
-
         <el-table-column
             prop="deal"
-            label="操作">
+            :label="iconOptions.label">
           <template slot-scope="scope">
             <div>
-              <i class="el-icon-edit"></i>
-              <i class="el-icon-share"></i>
-              <i class="el-icon-delete"></i>
+              <i :class="item.type" v-for="(item,i) in iconOptions.options" :key="i" @click="handleIcon(item.type, scope.row)"></i>
             </div>
           </template>
         </el-table-column>
@@ -85,13 +76,25 @@
         type: Array,
         default: () => { return [] }
       },
+      hoverOption: {
+        type: Object,
+        default: ()=>{ return {} }
+      },
+      iconOptions: {
+        type: Object,
+        default: ()=>{ return {} }
+      }
     },
       data(){
           return {
 
           }
       },
-
+      methods:{
+        handleIcon(className,row){
+          this.$emit('update:handleIcon', {'className':className, 'row':row})
+        }
+      }
   }
 </script>
 <style>
