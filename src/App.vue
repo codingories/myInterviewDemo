@@ -1,30 +1,24 @@
 <template>
   <div id="app">
-<!--      ID 产品名称 品类 型号 功能入口 操作-->
     <myForm :myFormData="myFormData"></myForm>
     <my-table :tableProps="tableProps" :tableData="tableData" :hoverOption="hoverOption" :iconOptions="iconOptions" @update:handleIcon="handleIcon"></my-table>
-
-<!--    <div class="block">-->
-<!--      <el-pagination-->
-<!--          @size-change="handleSizeChange"-->
-<!--          @current-change="handleCurrentChange"-->
-<!--          :current-page="currentPage4"-->
-<!--          :page-sizes="[100, 200, 300, 400]"-->
-<!--          :page-size="100"-->
-<!--          layout="total, sizes, prev, pager, next, jumper"-->
-<!--          :total="400">-->
-<!--      </el-pagination>-->
-<!--    </div>-->
+    <my-pagination :total-page="totalPage" :page-obj="pageObj"></my-pagination>
   </div>
 </template>
 
 <script>
-import MyForm from '@/components/MyForm'
+import MyForm from './components/MyForm'
 import MyTable from "./components/MyTable"
+import MyPagination from "./components/MyPagination"
 export default {
   name: 'App',
   data() {
     return {
+      totalPage: 20,
+      pageObj: {
+        page: 1,
+        size: 5
+      },
       myFormData: {
         title: "全部种类",
         content: [{index:1,name:"下拉五"},{index:2,name:"下拉二"},{index:3,name:"下拉三"}]
@@ -48,7 +42,6 @@ export default {
         ]
       },
       tableProps: [
-        // ID 产品名称 品类 型号 功能入口 操作
         {
           prop:"ID",
           label:"产品名称"
@@ -148,34 +141,31 @@ export default {
           deal: '',
         },
       ],
-      currentPage1: 5,
-      currentPage2: 5,
-      currentPage3: 5,
-      currentPage4: 4
-
     }
   },
   components: {
+    MyPagination,
     MyTable,
     MyForm
   },
   methods: {
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    },
     handleIcon(arg){
       console.log(arg)
     }
   },
+  watch: {
+    pageObj: {
+      handler: function (newValue,oldValue) {
+        console.log(newValue,oldValue)
+      },
+      deep: true,
+      immediate: true
+    }
+  }
 
 }
 </script>
 
 <style>
-  .searchStyle {
-    padding-left: 30px;
-  }
+
 </style>

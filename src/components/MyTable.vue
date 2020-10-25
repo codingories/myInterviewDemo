@@ -1,12 +1,5 @@
 <template>
-
     <div>
-<!--      {{tableProps}}-->
-<!--      <hr>-->
-<!--      {{tableData}}-->
-<!--      <hr>-->
-<!--      {{hoverOption}}-->
-      {{iconOptions}}
       <el-table
           :data="tableData"
           style="width: 100%">
@@ -17,31 +10,6 @@
             :label="item.label"
             :width="item.width?item.width:'140px'"
         />
-
-
-        <!--        <el-table-column-->
-<!--            prop="ID"-->
-<!--            label="ID"-->
-<!--            width="180">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--            prop="kind"-->
-<!--            label="品类">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--            prop="type"-->
-<!--            label="型号">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--            prop="usage"-->
-<!--            label="功能入口">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--            prop="productName"-->
-<!--            label="产品名称"-->
-<!--            width="180">-->
-
-
       <el-table-column :label="hoverOption.label">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="bottom">
