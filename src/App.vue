@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <myForm :myFormData="myFormData"></myForm>
-    <my-table :tableProps="tableProps" :tableData="tableData" :hoverOption="hoverOption" :iconOptions="iconOptions" @update:handleIcon="handleIcon"></my-table>
-    <my-pagination :total-page="totalPage" :page-obj="pageObj"></my-pagination>
+    {{input}}
+    <el-input v-model="input" placeholder="请输入内容" type="textarea"></el-input>
+    <el-button type="primary" @click="confirm">确认</el-button>
+    <h4>{{result}}</h4>
   </div>
 </template>
 
@@ -14,153 +15,90 @@ export default {
   name: 'App',
   data() {
     return {
-      totalPage: 20,
-      pageObj: {
-        page: 1,
-        size: 5
-      },
-      myFormData: {
-        title: "全部种类",
-        content: [{index:1,name:"下拉五"},{index:2,name:"下拉二"},{index:3,name:"下拉三"}]
-      },
-      hoverOption:{
-        label: "产品名称",
-        content: "",
-      },
-      iconOptions: {
-        label: '操作',
-        options: [
-          {
-            type:"el-icon-edit"
-          },
-          {
-            type:"el-icon-share"
-          },
-          {
-            type:"el-icon-delete"
-          },
-        ]
-      },
-      tableProps: [
-        {
-          prop:"ID",
-          label:"产品名称"
-        },
-        {
-          prop:"kind",
-          label:"品类"
-        },
-        {
-          prop:"type",
-          label:"型号"
-        },
-        {
-          prop:"usage",
-          label:"功能入口"
-        }
-      ],
-      tableData: [
-        {
-        ID: '0098',
-        productName: '电压力锅',
-        kind: '电压力锅V型',
-        type: '家用型001',
-        usage: '5',
-        deal: '',
-      },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-        {
-          ID: '0098',
-          productName: '电压力锅',
-          kind: '电压力锅V型',
-          type: '家用型001',
-          usage: '5',
-          deal: '',
-        },
-      ],
+      input: '',
+      result:'',
+      hotelPeopleMap: {"JW": 400,"Golden":450,"Deltas":600,"PeaceExpress":700}
     }
   },
   components: {
-    MyPagination,
-    MyTable,
-    MyForm
+
   },
   methods: {
-    handleIcon(arg){
-      console.log(arg)
+    confirm(){
+      // this.validOne(this.input)
+
+      // const tempArray = ['CNN JW 2019-4-1 2019-5-1 10', 'ABC Golden 2019-3-11 2019-4-1 5']
+      // tempArray.forEach(v=>{
+      //   console.log(v)
+      //   console.log(this.validOne(v))
+      // })
+
+
+      let tempList = ['CNN JW 2019-4-1 2019-5-1 399',
+      'TW JW 2019-4-2 2019-5-2 1']
+      this.validTwo(tempList)
+
+    },
+    validOne(arg){
+      let tempList = arg.split(' ')
+      let tempStr = tempList[1] + ' ' + tempList[0] + ' ' + tempList[4]
+      if(this.hotelPeopleMap[tempList[1]]<tempList[4]){
+        return  "invilid"
+      }else{
+        return tempStr
+      }
+    },
+    validTwo(arg){
+      let firstInfo = arg[0].split(' ')
+      let secondInfo = arg[1].split(' ')
+      if(firstInfo[1] === secondInfo[1]){
+        console.log('旅馆相同')
+        if(this.isDateIntersection(firstInfo[2],firstInfo[3],secondInfo[2],secondInfo[3])) {
+          console.log('有日期重叠')
+          let totalDays = parseInt(firstInfo[4])+parseInt(secondInfo[4])
+          let hotelDays = this.hotelPeopleMap[firstInfo[1]]
+          if(totalDays>hotelDays){
+            console.log('invalid')
+          }else{
+            this.consoleTwoInfo(arg)
+          }
+        } else{
+          this.consoleTwoInfo(arg)
+        }
+      }
+    },
+    consoleTwoInfo(arg){
+      arg.map(v=>{
+        console.log(this.validOne(v))
+      })
+    },
+    //判断两个时间是否有交集
+    isDateIntersection(start1, end1, start2, end2) {
+      var startdate1 = new Date(start1.replace("-", "/").replace("-", "/"));
+      var enddate1 = new Date(end1.replace("-", "/").replace("-", "/"));
+
+      var startdate2 = new Date(start2.replace("-", "/").replace("-", "/"));
+      var enddate2 = new Date(end2.replace("-", "/").replace("-", "/"));
+
+      if (startdate1 >= startdate2 && startdate1 <= enddate2) {
+
+        return true;
+      }
+
+      if (enddate1 >= startdate2 && enddate1 <= enddate2) {
+        return true;
+      }
+
+      if (startdate1 <= startdate2 && enddate1 >= enddate2) {
+        return true;
+      }
+      return false;
     }
+
+
   },
   watch: {
-    pageObj: {
-      handler: function (newValue,oldValue) {
-        console.log(newValue,oldValue)
-      },
-      deep: true,
-      immediate: true
-    }
+
   }
 
 }
